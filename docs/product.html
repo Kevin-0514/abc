@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品頁面</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3ebf3;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #e9f9e9;
+        }
+        .card {
+            padding: 20px;
+            background-color: #f0fdf0;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .card img {
+            max-width: 100%;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .card h5 {
+            margin: 0 0 10px;
+            font-size: 1.25em;
+        }
+        .card p {
+            margin: 0 0 10px;
+            color: #555;
+        }
+        .card .price {
+            font-size: 1.5em;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .card .button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #28a745;
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+        }
+        img {
+            border-radius: 15px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">商品頁面</h1>
+        <form method="POST" action="cart.html" onsubmit="saveData()">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="https://storage.googleapis.com/pod_public/1300/148743.jpg" alt="商品1">
+                        <h5>商品1</h5>
+                        <p class="price">NT$ 100</p>
+                        <label for="quantity1">數量</label>
+                        <select id="quantity1" name="quantity1" class="form-control" onchange="updatesubtotal()">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="https://storage.googleapis.com/pod_public/1300/148743.jpg" alt="商品2">
+                        <h5>商品2</h5>
+                        <p class="price">NT$ 200</p>
+                        <label for="quantity2">數量</label>
+                        <select id="quantity2" name="quantity2" class="form-control" onchange="updatesubtotal()">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="https://storage.googleapis.com/pod_public/1300/148743.jpg" alt="商品3">
+                        <h5>商品3</h5>
+                        <p class="price">NT$ 300</p>
+                        <label for="quantity3">數量</label>
+                        <select id="quantity3" name="quantity3" class="form-control" onchange="updatesubtotal()">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center my-4">
+                <p>小計: NT$ <span id="subtotal">0</span></p>
+            </div>
+            <div class="text-center my-4">
+                <button type="submit" class="btn btn-success">結帳</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function updatesubtotal(){
+            var a = document.getElementById("quantity1");
+            var b = document.getElementById("quantity2");
+            var c = document.getElementById("quantity3");
+            var subtotal = a.value * 100 + b.value * 200 + c.value * 300;
+            document.getElementById("subtotal").textContent = subtotal;
+        }
+
+        function saveData() {
+            var inputQuantity1Element = document.getElementById('quantity1');
+            var inputQuantity1Value = inputQuantity1Element.value;
+            var inputQuantity2Element = document.getElementById('quantity2');
+            var inputQuantity2Value = inputQuantity2Element.value;
+            var inputQuantity3Element = document.getElementById('quantity3');
+            var inputQuantity3Value = inputQuantity3Element.value;
+
+            const data = {
+                "quantity1": inputQuantity1Value,
+                "quantity2": inputQuantity2Value,
+                "quantity3": inputQuantity3Value,
+            };
+            localStorage.setItem('myData02', JSON.stringify(data));
+            alert('Data saved to LocalStorage');
+        }
+    </script>
+</body>
+</html>
+
