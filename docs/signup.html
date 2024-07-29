@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>註冊表單</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            max-width: 70%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">註冊表單</h1>
+        <div class="form-container">
+            <form method="GET" action="product.html" id="myForm" class="form-container" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="username">使用者名稱：</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="您的使用者名稱">
+                </div>
+                    
+                <div class="form-group">
+                    <label for="password">密碼：</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="您的密碼">
+                </div>
+                    
+                <div class="form-group">
+                    <label for="adress">你來自：</label>
+                    <select id="adress" name="adress" class="form-control">
+                        <option value="">輸入地址</option>
+                        <option value="台北">台北</option>
+                        <option value="台中">台中</option>
+                        <option value="台南">台南</option>
+                        <option value="高雄">高雄</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <p>性別:</p>
+                    <div class="form-check">
+                        <input type="radio" name="gender" value="male" id="gender_male" class="form-check-input">
+                        <label for="gender_male" class="form-check-label">男</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="gender" value="female" id="gender_female" class="form-check-input">
+                        <label for="gender_female" class="form-check-label">女</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="gender" value="other" id="gender_other" class="form-check-input">
+                        <label for="gender_other" class="form-check-label">其他</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p>選擇興趣愛好:</p>
+                    <div class="form-check">
+                        <input type="checkbox" name="hobby" value="閱讀" id="hobby_reading" class="form-check-input">
+                        <label for="hobby_reading" class="form-check-label">閱讀</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="hobby" value="旅行" id="hobby_travel" class="form-check-input">
+                        <label for="hobby_travel" class="form-check-label">旅行</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="hobby" value="運動" id="hobby_sports" class="form-check-input">
+                        <label for="hobby_sports" class="form-check-label">運動</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="hobby" value="音樂" id="hobby_music" class="form-check-input">
+                        <label for="hobby_music" class="form-check-label">音樂</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">自我介紹：</label>
+                    <textarea id="comments" name="comments" class="form-control" rows="4" placeholder="請在此輸入自我介紹"></textarea>
+                </div>
+
+                <div id="errorMessages" class="text-danger mb-3"></div>
+
+                <button type="submit" class="btn btn-primary">送出</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); // 阻止表單的默認提交行為
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const adress = document.getElementById('adress').value;
+            const comments = document.getElementById('comments').value;
+            let errorMessages = [];
+
+            if (!username) {
+                errorMessages.push('請輸入使用者名稱。');
+            }
+            if (password.length < 6) {
+                errorMessages.push('密碼必須至少6個字元。');
+            }
+            if (!adress) {
+                errorMessages.push('請選擇你從哪裡來。');
+            }
+            if (!comments) {
+                errorMessages.push('請填寫自我介紹欄位。');
+            }
+            const errorContainer = document.getElementById('errorMessages');
+            errorContainer.innerHTML = '';
+            if (errorMessages.length > 0) {
+                errorMessages.forEach(message => {
+                    const p = document.createElement('p');
+                    p.textContent = message;
+                    errorContainer.appendChild(p);
+                });
+            } else {
+                alert('註冊成功');
+                saveData();
+                document.getElementById('myForm').submit();
+            }
+        }
+
+        function saveData() {
+            var inputElement = document.getElementById('username');
+            var inputValue = inputElement.value;
+            var inputPasswordElement = document.getElementById('password');
+            var inputPasswordValue = inputPasswordElement.value;
+            var inputCommentsElement = document.getElementById('comments');
+            var inputCommentsValue = inputCommentsElement.value;
+            var inputDropdownElement = document.getElementById('adress');
+            var inputDropdownValue = inputDropdownElement.value;
+            var gender = document.getElementsByName('gender');
+            var selectedGender = null;
+            for (var i = 0; i < gender.length; i++) {
+                if (gender[i].checked) {
+                    selectedGender = gender[i].value;
+                    break;
+                }
+            }
+            const data = {
+                "username": inputValue,
+                "password": inputPasswordValue,
+                "comments": inputCommentsValue,
+                "adress": inputDropdownValue,
+                "gender": selectedGender,
+            };
+            localStorage.setItem('myData', JSON.stringify(data));
+            alert('Data saved to LocalStorage');
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
